@@ -1,7 +1,5 @@
 # webcamHR
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
-
 ### Heart rate detection
 
 The main propose of [webcam-pulse-detector](https://github.com/thearn/webcam-pulse-detector) is to use camera for heart rate detection. Its code provides the function that measures the color variation of a rectangle on your forehead to generate a HR value on screen. I first starting to adjust the original code is because it always forces close before the experiment, which is solved by throwing expectation.
@@ -38,25 +36,22 @@ As a result, a BPM is generated and it will be printed on screen.
 
 #### [Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. (Ming-Zher Poh et al.)](osapublishing.org/oe/abstract.cfm?uri=oe-18-10-10762)
 
-<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
-<img src="https://render.githubusercontent.com/render/math?math=x_i(t) = \sum_{j=1}^{3}a_{ij}s_j(t)">
 
+Poh et al. suggest that, traditional experiments of pulse detection through camera are "lacked rigorous physiological and mathematical models amenable to computation". This caused the problem that the measurements might still be affected by noise. In order to present better result, Poh et al. used ICA(Independent component analysis) to extract original signal from observed ones. It supposed that observed signal <img src="https://render.githubusercontent.com/render/math?math=\textbf{x}(t)">  has a linear relationship with the original signal <img src="https://render.githubusercontent.com/render/math?math=\textbf{s}(t)">. Both<img src="https://render.githubusercontent.com/render/math?math=\textbf{x}(t)">and <img src="https://render.githubusercontent.com/render/math?math=\textbf{s}(t)"> are 3-d vectors with each component represents pixel values of each RGB channel. They are related with a 3*3 matrix: 
 
-Poh et al. suggest that, traditional experiments of pulse detection through camera are "lacked rigorous physiological and mathematical models amenable to computation". This caused the problem that the measurements might still be affected by noise. In order to present better result, Poh et al. used ICA(Independent component analysis) to extract original signal from observed ones. It supposed that observed signal $ \textbf{x}(t) $  has a linear relationship with the original signal $\textbf{s}(t)$. Both $\textbf{x}(t)$ and $\textbf{s}(t)$ are 3-d vectors with each component represents pixel values of each RGB channel. They are related with a 3*3 matrix: 
+<img src="https://render.githubusercontent.com/render/math?math=x_i(t) = \sum_{j=1}^{3}a_{ij}s_j(t)"> for each i = 1, 2, 3.
 
-$$x_i(t) = \sum_{j=1}^{3}a_{ij}s_j(t)$$ for each i=1,2,3
+Let's represent matrix with elements <img src="https://render.githubusercontent.com/render/math?math=a_{ij}"> as <img src="https://render.githubusercontent.com/render/math?math=\textbf{A}">. The purpose of ICA is to find the matrix <img src="https://render.githubusercontent.com/render/math?math=\textbf{A}"> to estimate the original signal. That is: <img src="https://render.githubusercontent.com/render/math?math=\textbf{x}(t)= \textbf{A} \textbf{s}(t)">. In order to get the estimation <img src="https://render.githubusercontent.com/render/math?math=\hat{ \textbf{s}}(t)">, the inverse matrix <img src="https://render.githubusercontent.com/render/math?math=\textbf{W}"> need to be calculated. Therefore,
 
-Let's represent matrix with elements $a_{ij}$ as $\textbf{A}$. The purpose of ICA is to find the matrix $\textbf{A}$ to estimate the original signal. That is: $\textbf{x}(t)= \textbf{A} \textbf{s}(t)$. In order to get the estimation $\hat{ \textbf{s}}(t)$, the inverse matrix $\textbf{W}$ need to be calculated. Therefore,
+<img src="https://render.githubusercontent.com/render/math?math=\hat{ \textbf{s}}(t)= \textbf{W} \textbf{x}(t)">
 
-$\hat{ \textbf{s}}(t)= \textbf{W} \textbf{x}(t)$
-
-In the experiment of Poh et al., they used[joint approximate diagonalization of eigenmatrices (JADE) algorithm](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.308.8611&rep=rep1&type=pdf) to find the inverse matrix $\textbf{W}$.
+In the experiment of Poh et al., they used[joint approximate diagonalization of eigenmatrices (JADE) algorithm](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.308.8611&rep=rep1&type=pdf) to find the inverse matrix <img src="https://render.githubusercontent.com/render/math?math=\textbf{W}">.
 
 The process of experiment can be explained by a figure from article. It used camera on computer (Macbook Pro) to take the video of participants, that is approximately 0.5m from the computer. In order to evaluate the accuracy of estimation, the "ground truth" of heart rate at same time of video is collected from a sensor on fingertip.
 
 <img src="tungsten106\webcamHR\Untitled picture.png" style="width:400px;height:250px;">
 
-When the camera recognized face with OpenCV, whole face is selected as ROI. Then pixel values(PV) in ROI in 3 channels are collected and normalized ($x'_i(t)=\frac{x_i(t)-μ_i}{σ_i}$, where $μ_i$ is mean and $σ_i$ is standard deviation). $x'_1(t),x'_2(t),x'_3(t)$ from each channels generate estimation of original signals $\hat{s_1(t)},\hat{s_2(t)},\hat{s_3(t)}$ with JADE algorithm. Since green channel shows the clearest frequency, and for the simplicity, they decided to always use component 2 for heart rate estimation.
+When the camera recognized face with OpenCV, whole face is selected as ROI. Then pixel values(PV) in ROI in 3 channels are collected and normalized (<img src="https://render.githubusercontent.com/render/math?math=x'_i(t)=\frac{x_i(t)-\mu_i}{\sigma_i}">, where <img src="https://render.githubusercontent.com/render/math?math=\mu_i"> is mean and <img src="https://render.githubusercontent.com/render/math?math=\sigma_i"> is standard deviation). <img src="https://render.githubusercontent.com/render/math?math=x'_1(t),x'_2(t),x'_3(t)"> from each channels generate estimation of original signals <img src="https://render.githubusercontent.com/render/math?math=\hat{s_1(t)},\hat{s_2(t)},\hat{s_3(t)}"> with JADE algorithm. Since green channel shows the clearest frequency, and for the simplicity, they decided to always use component 2 for heart rate estimation.
 
 Finally, Poh et al. used FFT for frequency extraction as well as Verkruysse et al.. Other from the application of ICA, they also compared the historical value with new estimation to reduce the influence of noise. If the difference between last and new value exceed the threshold (12 bpm), the next highest peak will be selected. If there isn't value that satisfied, they will retain the last value.
 
@@ -73,7 +68,7 @@ Ghanadian et al. suggests that there are few limitations in previous experiments
 
 Ghanadian et al. inserted and changed a few steps based on previous experiment processes. OpenFace is used to find ROI (which is full face like that in Poh et al.). Then light equalization is used. To be more specific, pixels in ROI are decomposed into Lightness(L), Saturation(S) and Hue(H), and L is normalized while others unchanged. Normalized L' will reduce light fluctuation and the face might seems darker. After detrending and normalizing, average PV from video in RGB channel are analyzed by ICA. As demonstrate by the flow diagram, signals are filtered to reduce noise. Low pass filter is used for weakening signals outside the cut-off frequency; Hamming window is used to make the waves more obvious so that the frequency is more accurate; Butterworth filter is used to "clean up signal".
 
-The component selection is using machine learning. 5 features are extracted by PCA. The first 3 are in frequency domain: the amplitude, frequency and ratio($\omega=\frac{max \lvert {y(t)} \rvert^2}{E[\lvert {y(t)} \rvert^2]}$, $y(t)$ is the frequency) of the highest peak. The later 2 are in time domain: the mean and standard deviation of time differences between peaks.
+The component selection is using machine learning. 5 features are extracted by PCA. The first 3 are in frequency domain: the amplitude, frequency and ratio(<img src="https://render.githubusercontent.com/render/math?math=\omega=\frac{max \lvert {y(t)} \rvert^2}{E[\lvert {y(t)} \rvert^2]}">, y(t) is the frequency) of the highest peak. The later 2 are in time domain: the mean and standard deviation of time differences between peaks.
 
 By comparing different classification models, Ghanadian et al. found that KNN, Random Forest and K-star presents the best estimation. The author chose combination of later 2 model to improve the accuracy. Input of the model is 5 features of signals, and the output are evaluation of estimation of each components that whether it gave a correct result(Y/N). The HR estimation will take average if there are more than one YES in output, and so if all output are NO. Finally, to reduce the linear shift between estimation and the correct value, Ghanadian et al. used linear regression as the last step of estimation.
 
