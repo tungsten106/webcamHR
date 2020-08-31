@@ -49,7 +49,7 @@ In the experiment of Poh et al., they used[joint approximate diagonalization of 
 
 The process of experiment can be explained by a figure from article. It used camera on computer (Macbook Pro) to take the video of participants, that is approximately 0.5m from the computer. In order to evaluate the accuracy of estimation, the "ground truth" of heart rate at same time of video is collected from a sensor on fingertip.
 
-<img src="tungsten106\webcamHR\Untitled picture.png" style="width:400px;height:250px;">
+<img src=https://github.com/tungsten106/webcamHR/blob/master/Untitled%20picture.png style="width:400px;height:250px;">
 
 When the camera recognized face with OpenCV, whole face is selected as ROI. Then pixel values(PV) in ROI in 3 channels are collected and normalized (<img src="https://render.githubusercontent.com/render/math?math=x'_i(t)=\frac{x_i(t)-\mu_i}{\sigma_i}">, where <img src="https://render.githubusercontent.com/render/math?math=\mu_i"> is mean and <img src="https://render.githubusercontent.com/render/math?math=\sigma_i"> is standard deviation). <img src="https://render.githubusercontent.com/render/math?math=x'_1(t),x'_2(t),x'_3(t)"> from each channels generate estimation of original signals <img src="https://render.githubusercontent.com/render/math?math=\hat{s_1(t)},\hat{s_2(t)},\hat{s_3(t)}"> with JADE algorithm. Since green channel shows the clearest frequency, and for the simplicity, they decided to always use component 2 for heart rate estimation.
 
@@ -72,4 +72,4 @@ The component selection is using machine learning. 5 features are extracted by P
 
 By comparing different classification models, Ghanadian et al. found that KNN, Random Forest and K-star presents the best estimation. The author chose combination of later 2 model to improve the accuracy. Input of the model is 5 features of signals, and the output are evaluation of estimation of each components that whether it gave a correct result(Y/N). The HR estimation will take average if there are more than one YES in output, and so if all output are NO. Finally, to reduce the linear shift between estimation and the correct value, Ghanadian et al. used linear regression as the last step of estimation.
 
-The result show that ratio of component in the final output are 13.11%,30.58%,56.31%. Its accuracy was improved from previous experiment (Poh&Monkaresi), and LR reduced the standard deviation.
+The result show that ratio of component in the final output are 13.11%, 30.58%, 56.31%. Its accuracy was improved from previous experiment (Poh&Monkaresi), and LR reduced the standard deviation.
