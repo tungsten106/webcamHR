@@ -52,11 +52,9 @@ As a result, a BPM is generated and it will be printed on screen.
 
 #### [Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. (Ming-Zher Poh et al.)](osapublishing.org/oe/abstract.cfm?uri=oe-18-10-10762)
 
-Poh et al. suggest that, tranditional experiments of pulse detection through camera are "lacked rigorous physiological and mathematical models amenable to computation". This caused the problem that the measurements might still be affected by noise. In order to present better result, Poh et al. used ICA(Independent component analysis) to extract original signal from observed ones. It supposed that observed signal $\textbf{x}(t)$  has a linear relationship with the original signal $\textbf{s}(t)$. Both $\textbf{x}(t)$ and $\textbf{s}(t)$ are 3-d vectors with each component represents pixel values of each RGB channel. They are related with a 3*3 matrix:
+Poh et al. suggest that, traditional experiments of pulse detection through camera are "lacked rigorous physiological and mathematical models amenable to computation". This caused the problem that the measurements might still be affected by noise. In order to present better result, Poh et al. used ICA(Independent component analysis) to extract original signal from observed ones. It supposed that observed signal $ \textbf{x}(t) $  has a linear relationship with the original signal $\textbf{s}(t)$. Both $\textbf{x}(t)$ and $\textbf{s}(t)$ are 3-d vectors with each component represents pixel values of each RGB channel. They are related with a 3*3 matrix: 
 
-$`\sqrt{2}`$
-
-$x_i(t) = \sum_{j=1}^{3}a_{ij}s_j(t)$ for each i=1,2,3
+$$x_i(t) = \sum_{j=1}^{3}a_{ij}s_j(t)$$ for each i=1,2,3
 
 Let's represent matrix with elements $a_{ij}$ as $\textbf{A}$. The purpose of ICA is to find the matrix $\textbf{A}$ to estimate the original signal. That is: $\textbf{x}(t)= \textbf{A} \textbf{s}(t)$. In order to get the estimation $\hat{ \textbf{s}}(t)$, the inverse matrix $\textbf{W}$ need to be calculated. Therefore,
 
@@ -87,6 +85,6 @@ Ghanadian et al. inserted and changed a few steps based on previous experiment p
 
 The component selection is using machine learning. 5 features are extracted by PCA. The first 3 are in frequency domain: the amplitude, frequency and ratio($\omega=\frac{max \lvert {y(t)} \rvert^2}{E[\lvert {y(t)} \rvert^2]}$, $y(t)$ is the frequency) of the highest peak. The later 2 are in time domain: the mean and standard deviation of time differences between peaks.
 
-By comparing different classification models, Ghanadian et al. found that KNN, Random Forest and K-star presents the best estimation. The author chose combination of later 2 model to improve the accuracy. Input of the model is 5 features of signals, and the output are evaluation of estimation of each componentsthat whether it gave a correct result(Y/N). The HR estimation will take average if there are more than one YES in output, and so if all output are NO. Finally, to reduce the linear shift between estimation and the correct value, Ghanadian et al. used linear regression as the last step of estimation.
+By comparing different classification models, Ghanadian et al. found that KNN, Random Forest and K-star presents the best estimation. The author chose combination of later 2 model to improve the accuracy. Input of the model is 5 features of signals, and the output are evaluation of estimation of each components that whether it gave a correct result(Y/N). The HR estimation will take average if there are more than one YES in output, and so if all output are NO. Finally, to reduce the linear shift between estimation and the correct value, Ghanadian et al. used linear regression as the last step of estimation.
 
 The result show that ratio of component in the final output are 13.11%,30.58%,56.31%. Its accuracy was improved from previous experiment (Poh&Monkaresi), and LR reduced the standard deviation.
