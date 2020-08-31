@@ -1,5 +1,21 @@
 # webcamHR
 
+```python
+<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+```
+
+
+
 ### Heart rate detection
 
 The main propose of [webcam-pulse-detector](https://github.com/thearn/webcam-pulse-detector) is to use camera for heart rate detection. Its code provides the function that measures the color variation of a rectangle on your forehead to generate a HR value on screen. I first starting to adjust the original code is because it always forces close before the experiment, which is solved by throwing expectation.
@@ -37,6 +53,8 @@ As a result, a BPM is generated and it will be printed on screen.
 #### [Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. (Ming-Zher Poh et al.)](osapublishing.org/oe/abstract.cfm?uri=oe-18-10-10762)
 
 Poh et al. suggest that, tranditional experiments of pulse detection through camera are "lacked rigorous physiological and mathematical models amenable to computation". This caused the problem that the measurements might still be affected by noise. In order to present better result, Poh et al. used ICA(Independent component analysis) to extract original signal from observed ones. It supposed that observed signal $\textbf{x}(t)$  has a linear relationship with the original signal $\textbf{s}(t)$. Both $\textbf{x}(t)$ and $\textbf{s}(t)$ are 3-d vectors with each component represents pixel values of each RGB channel. They are related with a 3*3 matrix:
+
+$`\sqrt{2}`$
 
 $x_i(t) = \sum_{j=1}^{3}a_{ij}s_j(t)$ for each i=1,2,3
 
