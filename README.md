@@ -38,8 +38,7 @@ As a result, a BPM is generated and it will be printed on screen.
 
 #### [Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. (Ming-Zher Poh et al.)](osapublishing.org/oe/abstract.cfm?uri=oe-18-10-10762)
 
-$$x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$$
-\\(x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\\)
+![](http://latex.codecogs.com/gif.latex?\\e = m c^2)
 
 
 Poh et al. suggest that, traditional experiments of pulse detection through camera are "lacked rigorous physiological and mathematical models amenable to computation". This caused the problem that the measurements might still be affected by noise. In order to present better result, Poh et al. used ICA(Independent component analysis) to extract original signal from observed ones. It supposed that observed signal $ \textbf{x}(t) $  has a linear relationship with the original signal $\textbf{s}(t)$. Both $\textbf{x}(t)$ and $\textbf{s}(t)$ are 3-d vectors with each component represents pixel values of each RGB channel. They are related with a 3*3 matrix: 
