@@ -66,7 +66,7 @@ In the experiment of Poh et al., they used[joint approximate diagonalization of 
 
 The process of experiment can be explained by a figure from article. It used camera on computer (Macbook Pro) to take the video of participants, that is approximately 0.5m from the computer. In order to evaluate the accuracy of estimation, the "ground truth" of heart rate at same time of video is collected from a sensor on fingertip.
 
-<img src="C:\Users\yexue\webcamHR\Untitled picture.png" style="width:400px;height:250px;">
+<img src=".\webcamHR\Untitled picture.png" style="width:400px;height:250px;">
 
 When the camera recognized face with OpenCV, whole face is selected as ROI. Then pixel values(PV) in ROI in 3 channels are collected and normalized ($x'_i(t)=\frac{x_i(t)-μ_i}{σ_i}$, where $μ_i$ is mean and $σ_i$ is standard deviation). $x'_1(t),x'_2(t),x'_3(t)$ from each channels generate estimation of original signals $\hat{s_1(t)},\hat{s_2(t)},\hat{s_3(t)}$ with JADE algorithm. Since green channel shows the clearest frequency, and for the simplicity, they decided to always use component 2 for heart rate estimation.
 
@@ -81,7 +81,7 @@ From the result, the application of ICA did improve the accuracy of estimation a
 
 Ghanadian et al. suggests that there are few limitations in previous experiments: 1. there are restriction on movements, 2.too sensitive to light noise, 3.methods to select the best component from ICA output are "unproven heuristic methods". For example, in the other article, Monkaresi et al. claims that the third component reflects the heart rate the best. Thus, this article proposed a method to select ICA output component with help with machine learning. For first problem, Ghanadian et al. use light equalization scheme reduce the influence of light noise on pixle values detected. Moreover, the author used linear regression model to improve accuracy at last step of HR estimation.
 
-<img src="C:\Users\yexue\webcamHR\Untitled picture-ML.png" style="width:380px;height:400px;">
+<img src=".\webcamHR\Untitled picture-ML.png" style="width:380px;height:400px;">
 
 Ghanadian et al. inserted and changed a few steps based on previous experiment processes. OpenFace is used to find ROI (which is full face like that in Poh et al.). Then light equalization is used. To be more specific, pixels in ROI are decomposed into Lightness(L), Saturation(S) and Hue(H), and L is normalized while others unchanged. Normalized L' will reduce light fluctuation and the face might seems darker. After detrending and normalizing, average PV from video in RGB channel are analyzed by ICA. As demonstrate by the flow diagram, signals are filtered to reduce noise. Low pass filter is used for weakening signals outside the cut-off frequency; Hamming window is used to make the waves more obvious so that the frequency is more accurate; Butterworth filter is used to "clean up signal".
 
